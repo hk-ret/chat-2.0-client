@@ -11,13 +11,13 @@ export class ChatService {
 	constructor() { }
 
 	connection$?: WebSocketSubject<any>;
-	GACHOCHAT_ENDPOINT = 'wss://chat.gacho.duckdns.org:16788/'
+	GACHOCHAT_ENDPOINT = 'wss://chat-ws.gacho.duckdns.org:16788/'
 
 	connectGachoChat() {
 		return this.connect(this.GACHOCHAT_ENDPOINT)
 	}
 
-	connect(endpoint:string): Observable<any> {
+	connect(endpoint: string): Observable<any> {
 		// If no connection object has been created yet, return a new connection
 		if (!this.connection$) this.connection$ = webSocket(endpoint);
 		return this.connection$;
@@ -26,7 +26,7 @@ export class ChatService {
 	send(data: Object) {
 		console.log("Sending message")
 		console.log(data)
-		if(this.connection$) {
+		if (this.connection$) {
 			this.connection$.next(data);
 		} else {
 			console.error('Connection has not been created, cannot send ' + String(data))
@@ -34,7 +34,7 @@ export class ChatService {
 	}
 
 	closeConnection() {
-		if(this.connection$) {
+		if (this.connection$) {
 			this.connection$.complete();
 			delete this.connection$;
 		}
